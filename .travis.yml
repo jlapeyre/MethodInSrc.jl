@@ -4,11 +4,10 @@ os:
   - linux
   - osx
 julia:
-  - 0.7
   - nightly
 matrix:
-  allow_failures:
-    - julia: nightly
+  # allow_failures:
+  #   - julia: nightly
   fast_finish: true
 notifications:
   email: false
