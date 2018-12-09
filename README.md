@@ -11,6 +11,27 @@
 a function call dispatches (or does not) to a method defined in your module.
 They are meant to verify that a specialized method is called rather than a more generic one. (Or vice versa.)
 
+## Motivation
+
+Some code provides efficient, specialized methods for particular data types. It's important that the input, the output, and
+the function call look exactly as they did before implementing the efficient method. So the test shouldn't change:
+```julia
+@test sum(A) = n
+```
+How then, apart from benchmarking, do you test your new implementation ?
+This module is a step towards a solution.
+
+The problem becomes more complicated, and more error prone,
+if you have a file defining binary operations, say multiplication,
+for combinations of various particular and abstract types.
+Are you sure dispatch is occurring as you intend ?
+Furthermore, due to changes in other code, someone may remove a specialized method that has become redundant, or add a new one.
+When reading this code (even if you changed it yourself last year) and you can't find a method, did it go missing, or was removed
+intentionally ? _"... wait a minute, there's a test for that missing method in the test suite, and it's passing!"_
+You get the idea.
+
+## Macros `@isinsrc`, `@insrc`, and `@ninsrc`
+
 This module exports `@isinsrc`, `@insrc`, and `@ninsrc`.
 
 `@isinsrc f(x)` returns `true` if the method for `f(x)` is found under `../src`. But, it does not evaluate `f(x)`.
@@ -52,9 +73,8 @@ Use `@insrc` if you are too lazy to write two tests,
 one to verify that you have the correct method,
 and another to test its correctness.
 
-`@insrc` verifies that the methods are defined in "../src",
-and then evaluate the expressions.
-Here, it is assumed we know that `MyPackage.prod` is a different function and test for it.
+The following example assumes we know that `MyPackage.prod`
+and `Base.prod` are different functions.
 These tests all pass.
 ```julia
 using MyPackage
@@ -65,10 +85,10 @@ N = 3
 m = MethodInSrc.AMatrix{Int}(N)
 
 # Note that `@insrc` takes the next expression as an argument.
-# We need to test just the function call.
-@test_throws ErrorException 1 == @insrc prod(m)   # This finds the method.
+# So, `@insrc prod(m) == 1` will fail to locate the source for `prod`
+@test_throws ErrorException 1 == @insrc prod(m)   # This finds the source for the method.
 @test_throws ErrorException @insrc(prod(m)) == 1  # This does too.
-@test 1 == @ninsrc prod(m)  # Do the test if the method is generic
+@test 1 == @ninsrc prod(m)  # Do the test if the method *is* generic
 
 # The following methods are found in "../src", so the expressions are evaluated
 @test N^2 == @insrc sum(m)
