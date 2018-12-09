@@ -82,7 +82,7 @@ using MethodInSrc
 using Test
 
 N = 3
-m = MethodInSrc.AMatrix{Int}(N)
+m = MyPackage.AMatrix{Int}(N)
 
 # Note that `@insrc` takes the next expression as an argument.
 # So, `@insrc prod(m) == 1` will fail to locate the source for `prod`
@@ -93,7 +93,7 @@ m = MethodInSrc.AMatrix{Int}(N)
 # The following methods are found in "../src", so the expressions are evaluated
 @test N^2 == @insrc sum(m)
 @test (@insrc sum(m)) == N^2
-@test @insrc(MethodInSrc.prod(m)) == 1
+@test @insrc(MyPackage.prod(m)) == 1
 ```
 
 ## Other examples
