@@ -8,7 +8,7 @@
 **This package requires a Julia development branch `f8f7088` from July 24, 2018, or later. (Because it uses `splitpath`)**
 
 `MethodInSrc` provides tools to use in your test suite that verify that
-a function call dispatches (or does not) to a method defined in your module.
+a function call dispatches (or does not) to a method defined in your module, or in another specified module.
 They are meant to verify that a specialized method is called rather than a more generic one. (Or vice versa.)
 
 ## Motivation
@@ -32,17 +32,25 @@ You get the idea.
 
 ## Macros `@isinsrc`, `@insrc`, and `@ninsrc`
 
-This module exports `@isinsrc`, `@insrc`, and `@ninsrc`.
-
 `@isinsrc f(x)` returns `true` if the method for `f(x)` is found under `../src`. But, it does not evaluate `f(x)`.
 
 `@insrc f(x)` throws an error if the method for `f(x)` is not found under `../src`. Otherwise, it evaluates `f(x)`.
 
 `@ninsrc` is the same as `@insrc` except that it throws if the method *is* under `../src`.
 
-The macros are meant to be used in files in your module's "test" directory.
+These three macros are meant to be used in files in your module's "test" directory.
 In this case, `@isinsrc f([x,...])` returns `true` if the method that would be called by `f([x,...])` was defined
 in the module's "src" directory.
+
+## Macros `@isinmodule`, `@inmodule`, and `@ninmodule`
+
+`@isinmodule ModuleName f(x)` returns `true` if the method for `f(x)` is found in the source directory
+of `ModuleName`. But, it does not evaluate `f(x)`.
+
+`@inmodule ModuleName f(x)` throws an error if the method for `f(x)` is not found under the source directory of `ModuleName`.
+Otherwise, it evaluates `f(x)`.
+
+`@ninmodule` is the same as `@inmodule` except that it throws if the method *is* under the source directory of `ModuleName`.
 
 ## Examples
 

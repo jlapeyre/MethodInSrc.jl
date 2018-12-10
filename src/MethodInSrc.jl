@@ -1,3 +1,5 @@
+module MethodInSrc
+
 """
     module MethodInSrc
 
@@ -5,7 +7,8 @@
 a function call dispatches (or does not) to a method defined in your module.
 They are meant to verify that a specialized method is called rather than a more generic one. (Or vice versa.)
 
-This module exports `@isinsrc`, `@insrc`, and `@ninsrc`.
+This module exports `@isinsrc`, `@insrc`, `@ninsrc`,
+`@isinmodule`, `@inmodule`, and  `@ninmodule`.
 
 `@isinsrc f(x)` returns `true` if the method for `f(x)` is found under `../src`. But, it does not evaluate `f(x)`.
 
@@ -13,9 +16,11 @@ This module exports `@isinsrc`, `@insrc`, and `@ninsrc`.
 
 `@ninsrc` is the same as `@insrc` except that it throws if the method *is* under `../src`.
 
-The macros are meant to be used in files in your module's "test" directory.
+The first three macros are meant to be used in files in your module's "test" directory.
 In this case, `@isinsrc f([x,...])` returns `true` if the method that would be called by `f([x,...])` was defined
 in the module's "src" directory.
+
+See the doc strings for `@isinmodule`, `@inmodule`, and  `@ninmodule`.
 
 ## Examples
 
@@ -70,10 +75,11 @@ m = MyPackage.AMatrix{Int}(N)
 @test @insrc(MyPackage.prod(m)) == 1
 ```
 """
-module MethodInSrc
+MethodInSrc
+
 using InteractiveUtils
 
-export @isinsrc, @insrc, @ninsrc
+export @isinsrc, @insrc, @ninsrc, @inmodule, @ninmodule, @isinmodule
 
 """
     findmethod(call::Expr)
@@ -92,6 +98,8 @@ Return the path to the directory containing the source for `meth`.
 For methods in `Base`, return the empty string.
 """
 methoddir(meth::Method) = dirname(string(meth.file))
+
+methpath(meth::Method) = string(meth.file)
 
 """
     issubdir(dir::AbstractString, subdir::AbstractString)
@@ -145,7 +153,7 @@ end
 """
     @insrc f([x, y,...])
 
-Evaluate the expression if the method that is defined in the source directory ("src")
+Evaluate the expression if the method called is defined in the source directory ("src")
 of the module in which the test running. Otherwise, throw an `ErrorException`.
 
 `@insrc` is meant to be called from within a module's "test" directory.
@@ -168,8 +176,7 @@ macro insrc(call)
         src_dir = srcdir()
         methdir = methoddir($meth)
         if ! isdirorsubdir(src_dir, methdir)
-            methpath = string(($meth).file)
-            throw(ErrorException("@insrc: Method defined in '$methpath', not in '$src_dir'."))
+            throw(ErrorException("@insrc: Method defined in '$(methpath($meth))', not in '$src_dir'."))
         end
         $(esc(call))
     end
@@ -187,8 +194,57 @@ macro ninsrc(call)
         src_dir = srcdir()
         methdir = methoddir($meth)
         if isdirorsubdir(src_dir, methdir)
-            methpath = string(($meth).file)
-            throw(ErrorException("@ninsrc: Method defined in '$methpath', which is a subdirectory of '$src_dir'."))
+            throw(ErrorException("@ninsrc: Method defined in '$(methpath($meth))', which is a subdirectory of '$src_dir'."))
+        end
+        $(esc(call))
+    end
+end
+
+"""
+    @isinmodule ModuleName f([x, y,...])
+
+Return true if the method that would be called for the expression is
+in the source directory ("src") of `ModuleName`
+"""
+macro isinmodule(mod, call)
+    quote
+        isdirorsubdir(dirname(pathof($(esc(mod)))), methoddir($(findmethod(call))))
+    end
+end
+
+"""
+    @inmodule ModuleName f([x, y,...])
+
+
+Evaluate the the expressoin `f...` if the method called is defined in the
+source directory of `ModuleName`. Otherwise throw an ErrorException.
+"""
+macro inmodule(mod, call)
+    meth = findmethod(call)
+    quote
+        src_dir = dirname(pathof($(esc(mod))))
+        methdir = methoddir($meth)
+        if ! isdirorsubdir(src_dir, methdir)
+            throw(ErrorException("@inmodule: Method defined in '$(methpath($meth))', not in '$src_dir'."))
+        end
+        $(esc(call))
+    end
+end
+
+"""
+    @ninmodule ModuleName f([x, y,...])
+
+
+Evaluate the the expressoin `f...` if the method called is *not* defined in the
+source directory of `ModuleName`. Otherwise throw an ErrorException.
+"""
+macro ninmodule(mod, call)
+    meth = findmethod(call)
+    quote
+        src_dir = dirname(pathof($(esc(mod))))
+        methdir = methoddir($meth)
+        if isdirorsubdir(src_dir, methdir)
+            throw(ErrorException("@ninmodule: Method defined in '$(methpath($meth))', which is a subdirectory of '$src_dir'."))
         end
         $(esc(call))
     end
