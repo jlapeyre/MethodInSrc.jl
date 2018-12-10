@@ -169,7 +169,7 @@ macro insrc(call)
         methdir = methoddir($meth)
         if ! isdirorsubdir(src_dir, methdir)
             methpath = string(($meth).file)
-            throw(ErrorException("Method defined in '$methpath', not in '$src_dir'."))
+            throw(ErrorException("@insrc: Method defined in '$methpath', not in '$src_dir'."))
         end
         $(esc(call))
     end
@@ -188,7 +188,7 @@ macro ninsrc(call)
         methdir = methoddir($meth)
         if isdirorsubdir(src_dir, methdir)
             methpath = string(($meth).file)
-            throw(ErrorException("Method defined in '$methpath', not in '$src_dir'."))
+            throw(ErrorException("@ninsrc: Method defined in '$methpath', which is a subdirectory of '$src_dir'."))
         end
         $(esc(call))
     end
