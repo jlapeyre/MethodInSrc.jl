@@ -1,10 +1,13 @@
 using MethodInSrc
 using Test
 
+@testset "auxilliary" begin
+    @test ! MethodInSrc.issubdir("/a/b/c/", "/a/g/c/d")
+end
+
 # MethodInSrc includes a type `AMatrix` just for testing.
 # `sum(::AMatrix)` extends the function `Base.sum`
 # `prod(::AMatrix)` is a new function defined in `MethodsInSrc`.
-
 @testset "@isinsrc" begin
     N = 4
     m = MethodInSrc.AMatrix{Int}(N)
@@ -45,4 +48,6 @@ end
     @test @isinsrc isone(m)
     @test ! @isinsrc iszero(m)
     @test  @isinsrc MethodInSrc.iszero(m)
+    @test ! @insrc isone(m)
+    @test ! @insrc MethodInSrc.iszero(m)
 end

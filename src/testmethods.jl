@@ -19,7 +19,6 @@ end
 
 # Convert to an allocated `Matrix`
 Base.Matrix(a::AMatrix{T}) where {T} = ones(T, a.n, a.n)
-Base.Array(a::AMatrix) = Matrix(a)
 
 # We implement an efficient method for computing the sum of the elements.
 Base.sum(a::AMatrix{T}) where T = T(a.n^2)
