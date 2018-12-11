@@ -25,10 +25,18 @@ The problem becomes more complicated, and more error prone,
 if you have a file defining binary operations, say multiplication,
 for combinations of various particular and abstract types.
 Are you sure dispatch is occurring as you intend ?
-Furthermore, due to changes in other code, someone may remove a specialized method that has become redundant, or add a new one.
-When reading this code (even if you changed it yourself last year) and you can't find a method, did it go missing, or was removed
-intentionally ? _"... wait a minute, there's a test for that missing method in the test suite, and it's passing!"_
-You get the idea.
+
+Furthermore, due to changes in other code,
+someone may remove a specialized method that has become redundant,
+or add a new one.
+When reading this code (even if you changed it yourself last year)
+and you can't find a method, did it go missing, or was removed
+intentionally ?
+
+_"... wait a minute, `foofunc` isn't in the source, but there's a test for it in the test suite--- and it's passing!"_
+
+If you had written `@test @insrc(foofunc(A, b)) == c`, then the test would have failed as soon as `foofunc` was
+removed from the source.
 
 ## Macros `@isinsrc`, `@insrc`, and `@ninsrc`
 
@@ -111,6 +119,9 @@ in [runtests.jl](https://github.com/jlapeyre/IdentityMatrix.jl/blob/master/test/
 `IdentityMatrix` (a misnomer) includes methods for types from `Base`, `LinearAlgebra`
 and [`FillArrays`](https://github.com/JuliaArrays/FillArrays.jl). It serves as a way station for
 some efficient methods. Methods have been moved from `IdentityMatrix` to `LinearAlgebra` and `FillArrays`.
+These are methods for `one`, `sum`, `inv`, etc.
+Keeping track of where I want the methods to be, and ensuring that they are indeed there, was as
+good as impossible without something like `MethodInSrc`.
 
 ## Other examples
 
