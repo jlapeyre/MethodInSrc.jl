@@ -60,7 +60,6 @@ Suppose the type `MyPackage.AMatrix` represents a square matrix whose elements a
 But, we neglected to write `Base.prod` or `import Base: prod`.
 So `MyPackage.prod` is not an extension of `Base.prod`.
 
-
 ### `@isinsrc`
 
 Use `@isinsrc` to
@@ -104,13 +103,24 @@ m = MyPackage.AMatrix{Int}(N)
 @test @insrc(MyPackage.prod(m)) == 1
 ```
 
+## Package using `MethodInSrc`
+
+[`IdentityMatrix.jl`](https://github.com/jlapeyre/IdentityMatrix.jl) uses `MethodInSrc`
+in [runtests.jl](https://github.com/jlapeyre/IdentityMatrix.jl/blob/master/test/runtests.jl).
+
+`IdentityMatrix` (a misnomer) includes methods for types from `Base`, `LinearAlgebra`
+and [`FillArrays`](https://github.com/JuliaArrays/FillArrays.jl). It serves as a way station for
+some efficient methods. Methods have been moved from `IdentityMatrix` to `LinearAlgebra` and `FillArrays`.
+
 ## Other examples
 
 The [test suite for MethodInSrc](./test/runtests.jl) has more detailed examples
 based on a toy type implemented in [./src/testmethods.jl](./src/testmethods.jl) 
 and  [./src/subdir/method_in_subdir.jl](./src/subdir/method_in_subdir.jl)
 
-<!--  LocalWords:  MethodInSrc Codecov splitpath src MyPackage AMatrix julia
+<!--  LocalWords:  MethodInSrc Codecov splitpath src MyPackage AMatrix julia jl
  -->
-<!--  LocalWords:  isinsrc ErrorException insrc ninsrc
+<!--  LocalWords:  isinsrc ErrorException insrc ninsrc benchmarking ModuleName
+ -->
+<!--  LocalWords:  IdentityMatrix runtests LinearAlgebra FillArrays
  -->
