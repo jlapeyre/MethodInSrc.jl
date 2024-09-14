@@ -1,7 +1,7 @@
 # MethodInSrc
 
-[![Build Status](https://github.com/jlapeyre/MethodsInSrc.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/jlapeyre/MethodsInSrc.jl/actions/workflows/CI.yml?query=branch%3Amain)
-[![Coverage](https://codecov.io/gh/jlapeyre/MethodsInSrc.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/jlapeyre/MethodsInSrc.jl)
+[![Build Status](https://github.com/jlapeyre/MethodInSrc.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/jlapeyre/MethodInSrc.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Coverage](https://codecov.io/gh/jlapeyre/MethodInSrc.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/jlapeyre/MethodInSrc.jl)
 <!-- [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl) -->
 <!-- [![JET QA](https://img.shields.io/badge/JET.jl-%E2%9C%88%EF%B8%8F-%23aa4444)](https://github.com/aviatesk/JET.jl) -->
 
@@ -11,25 +11,22 @@ They are meant to verify that a specialized method is called rather than a more 
 
 ## Motivation
 
-Some code provides efficient, specialized methods for particular data types. It's important that the input, the output, and
-the function call look exactly as they did before implementing the efficient method. So the test shouldn't change:
+Some code provides efficient, specialized methods for particular data types, rather than relying on fallack methods defined for more abstract types.
+It's important that the input, the output, and the function call look exactly as they did before implementing the efficient method. So the test shouldn't change:
 ```julia
 @test sum(A) = n
 ```
-How then, apart from benchmarking, do you test your new implementation ?
+How then, apart from benchmarking, can you test that your new implementation is indeed called?
 This module is a step towards a solution.
 
-The problem becomes more complicated, and more error prone,
-if you have a file defining binary operations, say multiplication,
-for combinations of various particular and abstract types.
-Are you sure dispatch is occurring as you intend ?
+The problem becomes more complicated, and more error prone, if you have a file
+defining binary operations, say multiplication, for combinations of various
+particular and abstract types.  Are you sure dispatch is occurring as you intend?
 
-Furthermore, due to changes in other code,
-someone may remove a specialized method that has become redundant,
-or add a new one.
-When reading this code (even if you changed it yourself last year)
-and you can't find a method, did it go missing, or was removed
-intentionally ?
+Furthermore, due to changes in other code, someone may remove a specialized
+method that has become redundant, or add a new one.  When reading this code
+(even if you changed it yourself last year) and you can't find a method, did it
+go missing, or was removed intentionally ?
 
 _"... wait a minute, `foofunc` isn't in the source, but there's a test for it in the test suite--- and it's passing!"_
 
