@@ -5,8 +5,6 @@
 [![Codecov](https://codecov.io/gh/jlapeyre/MethodInSrc.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/jlapeyre/MethodInSrc.jl)
 [![Coveralls](https://coveralls.io/repos/github/jlapeyre/MethodInSrc.jl/badge.svg?branch=master)](https://coveralls.io/github/jlapeyre/MethodInSrc.jl?branch=master)
 
-**This package requires a Julia development branch `f8f7088` from July 24, 2018, or later. (Because it uses `splitpath`)**
-
 `MethodInSrc` provides tools to use in your test suite that verify that
 a function call dispatches (or does not) to a method defined in your module, or in another specified module.
 They are meant to verify that a specialized method is called rather than a more generic one. (Or vice versa.)
@@ -112,6 +110,8 @@ m = MyPackage.AMatrix{Int}(N)
 ```
 
 ## Package using `MethodInSrc`
+
+Following is obsolete
 
 [`IdentityMatrix.jl`](https://github.com/jlapeyre/IdentityMatrix.jl) uses `MethodInSrc`
 in [runtests.jl](https://github.com/jlapeyre/IdentityMatrix.jl/blob/master/test/runtests.jl).
