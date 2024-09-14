@@ -1,9 +1,9 @@
 # MethodInSrc
 
-[![Build Status](https://travis-ci.com/jlapeyre/MethodInSrc.jl.svg?branch=master)](https://travis-ci.com/jlapeyre/MethodInSrc.jl)
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/jlapeyre/MethodInSrc.jl?svg=true)](https://ci.appveyor.com/project/jlapeyre/MethodInSrc-jl)
-[![Codecov](https://codecov.io/gh/jlapeyre/MethodInSrc.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/jlapeyre/MethodInSrc.jl)
-[![Coveralls](https://coveralls.io/repos/github/jlapeyre/MethodInSrc.jl/badge.svg?branch=master)](https://coveralls.io/github/jlapeyre/MethodInSrc.jl?branch=master)
+[![Build Status](https://github.com/jlapeyre/MethodsInSrc.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/jlapeyre/MethodsInSrc.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Coverage](https://codecov.io/gh/jlapeyre/MethodsInSrc.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/jlapeyre/MethodsInSrc.jl)
+<!-- [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl) -->
+<!-- [![JET QA](https://img.shields.io/badge/JET.jl-%E2%9C%88%EF%B8%8F-%23aa4444)](https://github.com/aviatesk/JET.jl) -->
 
 `MethodInSrc` provides tools to use in your test suite that verify that
 a function call dispatches (or does not) to a method defined in your module, or in another specified module.
