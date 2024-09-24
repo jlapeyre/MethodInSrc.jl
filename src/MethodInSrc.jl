@@ -3,12 +3,12 @@ module MethodInSrc
 """
     module MethodInSrc
 
-`MethodInSrc` provides tools to use in your test suite that verify that
-a function call dispatches (or does not) to a method defined in your module.
-They are meant to verify that a specialized method is called rather than a more generic one. (Or vice versa.)
+`MethodInSrc` provides tools to use in your test suite that verify that a function call
+dispatches (or does not) to a method defined in your module.  They are meant to verify
+that a specialized method is called rather than a more generic one. (Or vice versa.)
 
-This module exports `@isinsrc`, `@insrc`, `@ninsrc`,
-`@isinmodule`, `@inmodule`, and  `@ninmodule`.
+This module exports `@isinsrc`, `@insrc`, `@ninsrc`, `@isinmodule`, `@inmodule`, and
+`@ninmodule`.
 
 `@isinsrc f(x)` returns `true` if the method for `f(x)` is found under `../src`. But, it does not evaluate `f(x)`.
 
@@ -17,18 +17,18 @@ This module exports `@isinsrc`, `@insrc`, `@ninsrc`,
 `@ninsrc` is the same as `@insrc` except that it throws if the method *is* under `../src`.
 
 The first three macros are meant to be used in files in your module's "test" directory.
-In this case, `@isinsrc f([x,...])` returns `true` if the method that would be called by `f([x,...])` was defined
-in the module's "src" directory.
+In this case, `@isinsrc f([x,...])` returns `true` if the method that would be called by
+`f([x,...])` was defined in the module's "src" directory.
 
 See the doc strings for `@isinmodule`, `@inmodule`, and  `@ninmodule`.
 
 ## Examples
 
-Suppose the type `MyPackage.AMatrix` represents a square matrix whose elements are all equal to `1`.
-`MyPackage` extends `Base.sum` with an efficient method for `::AMatrix`.
-`MyPackage` also includes an efficient function `prod(::AMatrix)`.
-But, we neglected to write `Base.prod` or `import Base: prod`.
-So `MyPackage.prod` is not an extension of `Base.prod`.
+Suppose the type `MyPackage.AMatrix` represents a square matrix whose elements are all
+equal to `1`.  `MyPackage` extends `Base.sum` with an efficient method for `::AMatrix`.
+`MyPackage` also includes an efficient function `prod(::AMatrix)`.  But, we neglected to
+write `Base.prod` or `import Base: prod`.  So `MyPackage.prod` is not an extension of
+`Base.prod`.
 
 
 ### `@isinsrc`
@@ -47,13 +47,13 @@ m = MyPackage.AMatrix{Int}(3)
 
 ### `@insrc`, `@ninsrc`
 
-Use `@insrc` if you are too lazy to write two tests,
-one to verify that you have the correct method,
-and another to test its correctness.
+Use `@insrc` if you are too lazy to write two tests, one to verify that you have the
+correct method, and another to test its correctness.
 
-`@insrc` verifies that the methods are defined in "../src",
-and then evaluate the expressions.
-Here, it is assumed we know that `MyPackage.prod` is a different function and test for it.
+`@insrc` verifies that the methods are defined in "../src", and then evaluate the
+expressions.  Below it is assumed we know that `MyPackage.prod` is a different function
+and test for it.
+
 These tests all pass.
 ```julia
 using MyPackage
@@ -127,11 +127,13 @@ end
 """
     @isinsrc f([x, y,...])
 
-Return true if the method that would be called for the expression is
-in the source directory ("src") of the module in which the test running.
+Return `true` if the method that would be called for the expression is in the source
+directory ("src") of the module in which the test running. Otherwise, return `false`.
 
-`@isinsrc` is meant to be called from within a module's "test" directory.
-The src directory is then found via "test/../src".
+`@isinsrc` is meant to be called from within a module's "test" directory.  The src
+directory is then found via "test/../src".
+
+To test if a method is *not* in the source directory, use `@test ! @isinsrc f(x,...)`.
 
 ### Example
 Verify that the method for `sum` is defined in `MyPackage`.
@@ -153,11 +155,11 @@ end
 """
     @insrc f([x, y,...])
 
-Evaluate the expression if the method called is defined in the source directory ("src")
-of the module in which the test running. Otherwise, throw an `ErrorException`.
+Evaluate the expression if the method called is defined in the source directory ("src") of
+the module in which the test running. Otherwise, throw an `ErrorException`.
 
-`@insrc` is meant to be called from within a module's "test" directory.
-The src directory is then found via "test/../src".
+`@insrc` is meant to be called from within a module's "test" directory.  The src directory
+is then found via "test/../src".
 
 ### Example
 Verify that the method for `sum` is defined in `MyPackage`.
@@ -185,8 +187,8 @@ end
 """
     @ninsrc f([x, y,...])
 
-The same as `@insrc` except that `@ninsrc` throws an error if the method
-*is* in "../src", while `@insrc` throws if the method is *not* in "../src".
+The same as `@insrc` except that `@ninsrc` throws an error if the method *is* in "../src",
+while `@insrc` throws if the method is *not* in "../src".
 """
 macro ninsrc(call)
     meth = findmethod(call)
@@ -203,8 +205,8 @@ end
 """
     @isinmodule ModuleName f([x, y,...])
 
-Return true if the method that would be called for the expression is
-in the source directory ("src") of `ModuleName`
+Return `true` if the method that would be called for the expression is in the source
+directory ("src") of `ModuleName`.
 """
 macro isinmodule(mod, call)
     quote
@@ -216,8 +218,8 @@ end
     @inmodule ModuleName f([x, y,...])
 
 
-Evaluate the the expressoin `f...` if the method called is defined in the
-source directory of `ModuleName`. Otherwise throw an ErrorException.
+Evaluate the the expressoin `f...` if the method called is defined in the source directory
+of `ModuleName`. Otherwise throw an ErrorException.
 """
 macro inmodule(mod, call)
     meth = findmethod(call)
@@ -235,8 +237,8 @@ end
     @ninmodule ModuleName f([x, y,...])
 
 
-Evaluate the the expressoin `f...` if the method called is *not* defined in the
-source directory of `ModuleName`. Otherwise throw an ErrorException.
+Evaluate the the expressoin `f...` if the method called is *not* defined in the source
+directory of `ModuleName`. Otherwise throw an ErrorException.
 """
 macro ninmodule(mod, call)
     meth = findmethod(call)
