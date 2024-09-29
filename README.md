@@ -2,7 +2,7 @@
 
 [![Build Status](https://github.com/jlapeyre/MethodInSrc.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/jlapeyre/MethodInSrc.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/jlapeyre/MethodInSrc.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/jlapeyre/MethodInSrc.jl)
-[![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/main/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
+[![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 [![JET QA](https://img.shields.io/badge/JET.jl-%E2%9C%88%EF%B8%8F-%23aa4444)](https://github.com/aviatesk/JET.jl)
 
 `MethodInSrc` provides tools to use in your test suite that verify that
