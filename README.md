@@ -2,8 +2,8 @@
 
 [![Build Status](https://github.com/jlapeyre/MethodInSrc.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/jlapeyre/MethodInSrc.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/jlapeyre/MethodInSrc.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/jlapeyre/MethodInSrc.jl)
-[![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
-<!-- [![JET QA](https://img.shields.io/badge/JET.jl-%E2%9C%88%EF%B8%8F-%23aa4444)](https://github.com/aviatesk/JET.jl) -->
+[![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/main/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
+[![JET QA](https://img.shields.io/badge/JET.jl-%E2%9C%88%EF%B8%8F-%23aa4444)](https://github.com/aviatesk/JET.jl)
 
 `MethodInSrc` provides tools to use in your test suite that verify that
 a function call dispatches (or does not) to a method defined in your module, or in another specified module.
@@ -111,7 +111,7 @@ m = MyPackage.AMatrix{Int}(N)
 Following is obsolete
 
 [`IdentityMatrix.jl`](https://github.com/jlapeyre/IdentityMatrix.jl) uses `MethodInSrc`
-in [runtests.jl](https://github.com/jlapeyre/IdentityMatrix.jl/blob/master/test/runtests.jl).
+in [runtests.jl](https://github.com/jlapeyre/IdentityMatrix.jl/blob/main/test/runtests.jl).
 
 `IdentityMatrix` (a misnomer) includes methods for types from `Base`, `LinearAlgebra`
 and [`FillArrays`](https://github.com/JuliaArrays/FillArrays.jl). It serves as a way station for
