@@ -32,6 +32,7 @@ end
     @test N^2 == @insrc sum(m)
     @test (@insrc sum(m)) == N^2
     @test @insrc(MethodInSrc.prod(m)) == 1
+    @test ones(Int, 3, 3) == @insrc(Matrix(m))
 end
 
 @testset "@ninsrc" begin
